@@ -19,7 +19,7 @@ export default function SermonCard({ sermon }: SermonCardProps) {
           />
         ) : (
           <div className="w-full h-full bg-primary flex items-center justify-center">
-            <span className="text-white text-lg font-semibold">Siloha Church</span>
+            <span className="text-white text-lg font-semibold">Eglise Siloe</span>
           </div>
         )}
       </div>

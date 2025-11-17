@@ -4,14 +4,14 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-md p-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">
-            À propos de Siloha Church
+            À propos de l'Église Siloe
           </h1>
           
           <div className="prose prose-lg max-w-none">
             <p className="text-lg text-gray-600 mb-6">
-              Bienvenue à l'Église Siloha, une communauté chrétienne chaleureuse et accueillante 
-              située au cœur de la ville. Fondée sur les principes bibliques, notre église s'engage 
-              à partager l'amour de Jésus-Christ et à servir notre communauté.
+              Bienvenue à l'Église Siloe, une communauté chrétienne puissante, chaleureuse et accueillante 
+              située au cœur de la ville de Toronto. Fondée sur les principes bibliques, notre église s'engage 
+              à partager l'amour de Jésus-Christ et à servir notre communauté par la manifestation de la toute puissance du Seigneur Jésus-Christ sous la conduite de St Esprit.
             </p>
 
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Notre Mission</h2>

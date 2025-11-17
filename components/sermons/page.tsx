@@ -1,4 +1,4 @@
-import { getChannelVideos, searchVideos } from '@/lib/youtube-api';
+import { getChannelVideos } from '@/lib/youtube-api';
 import Videos from '@/components/youtube/Videos';
 import SearchBar from '@/components/common/SearchBar';
 
@@ -8,16 +8,15 @@ interface SermonsPageProps {
 
 export default async function SermonsPage({ searchParams }: SermonsPageProps) {
   const search = typeof searchParams.search === 'string' ? searchParams.search : '';
-  
-  let videos;
-  
-  if (search) {
-    // Recherche dans toutes les vidéos YouTube
-    videos = await searchVideos(search, 24);
-  } else {
-    // Vidéos de la chaîne Siloha Church
-    videos = await getChannelVideos(24);
-  }
+  const videos = await getChannelVideos(50); // Récupérer plus de vidéos pour la recherche
+
+  // Filtrer les vidéos basé sur la recherche
+  const filteredVideos = search
+    ? videos.filter(video =>
+        video.snippet.title.toLowerCase().includes(search.toLowerCase()) ||
+        video.snippet.description.toLowerCase().includes(search.toLowerCase())
+      )
+    : videos;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -28,10 +27,7 @@ export default async function SermonsPage({ searchParams }: SermonsPageProps) {
             Sermons
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {search 
-              ? `Résultats pour "${search}"` 
-              : 'Découvrez nos prédications passées et grandissez dans votre foi'
-            }
+            Découvrez nos prédications passées et grandissez dans votre foi
           </p>
         </div>
 
@@ -41,18 +37,10 @@ export default async function SermonsPage({ searchParams }: SermonsPageProps) {
         </div>
 
         {/* Videos Grid */}
-        <Videos videos={videos} />
-        
-        {videos.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">
-              {search 
-                ? `Aucun sermon trouvé pour "${search}"`
-                : 'Aucun sermon disponible pour le moment'
-              }
-            </p>
-          </div>
-        )}
+        <Videos 
+          videos={filteredVideos} 
+          title={search ? `Résultats pour "${search}"` : "Derniers sermons"}
+        />
       </div>
     </div>
   );

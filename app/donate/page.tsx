@@ -129,7 +129,7 @@ export default function DonatePage() {
                 </p>
                 <p>
                   <strong>Chèque:</strong>
-                  <br />À l'ordre de "Siloha Church"
+                  <br />À l'ordre de "Eglise Siloe/Siloha Church"
                 </p>
                 <p>
                   <strong>Espèces:</strong>

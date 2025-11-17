@@ -33,11 +33,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const session = await getSession();
       if (session?.user) {
+        // Vérification sécurisée des propriétés
         setUser({
-          id: session.user.id,
+          id: (session.user as any).id || session.user.email || '',
           name: session.user.name || '',
           email: session.user.email || '',
-          role: session.user.role || 'member',
+          role: (session.user as any).role || 'member',
         });
       }
     } catch (error) {
@@ -62,10 +63,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const session = await getSession();
     if (session?.user) {
       setUser({
-        id: session.user.id,
+        id: (session.user as any).id || session.user.email || '',
         name: session.user.name || '',
         email: session.user.email || '',
-        role: session.user.role || 'member',
+        role: (session.user as any).role || 'member',
       });
     }
   };

@@ -143,7 +143,7 @@ export default function PaymentMethods({
             </h4>
             <div className="space-y-2 text-sm text-gray-700">
               <p>
-                <strong>Bénéficiaire:</strong> Siloha Church
+                <strong>Bénéficiaire:</strong> Eglise Siloe/Siloha Church
               </p>
               <p>
                 <strong>IBAN:</strong> FR76 3000 4000 5000 6000 7000 800

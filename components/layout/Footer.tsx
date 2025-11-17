@@ -11,7 +11,7 @@ export default function Footer() {
               <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                 <span className="text-white font-bold">S</span>
               </div>
-              <span className="text-xl font-bold">Siloha Church</span>
+              <span className="text-xl font-bold">Eglise Siloe</span>
             </div>
             <p className="text-gray-300 mb-4">
               Une communauté de foi dédiée à servir Dieu et à aimer notre prochain. 
@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-          <p>&copy; {new Date().getFullYear()} Siloha Church. Tous droits réservés.</p>
+          <p>&copy; {new Date().getFullYear()} Eglise Siloe. Tous droits réservés.</p>
         </div>
       </div>
     </footer>

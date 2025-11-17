@@ -1,13 +1,17 @@
 import Link from 'next/link';
+import { getChannelVideos } from '@/lib/youtube-api'; // Supprimez getChannelDetails
+import Videos from '@/components/youtube/Videos';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const videos = await getChannelVideos(8); // Récupérer 6 dernières vidéos
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary to-primary-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Bienvenue à l'Église Siloha
+            Bienvenue à l'Église Siloe
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-primary-100">
             Une communauté de foi, d'espérance et d'amour
@@ -18,6 +22,28 @@ export default function HomePage() {
             </Link>
             <Link href="/sermons" className="btn-secondary border-white text-white hover:bg-white hover:text-primary">
               Voir les sermons
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Sermons */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Derniers Sermons
+            </h2>
+            <p className="text-lg text-gray-600">
+              Découvrez nos dernières prédications
+            </p>
+          </div>
+          
+          <Videos videos={videos} title="" />
+          
+          <div className="text-center mt-8">
+            <Link href="/sermons" className="btn-primary">
+              Voir tous les sermons
             </Link>
           </div>
         </div>

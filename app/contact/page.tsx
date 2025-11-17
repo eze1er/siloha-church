@@ -52,7 +52,7 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary text-gray-900 bg-white" // Ajout de text-gray-900 et bg-white
                     />
                   </div>
                   <div>
@@ -66,7 +66,7 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary text-gray-900 bg-white" // Ajout de text-gray-900 et bg-white
                     />
                   </div>
                 </div>
@@ -82,7 +82,7 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary text-gray-900 bg-white" // Ajout de text-gray-900 et bg-white
                   />
                 </div>
 
@@ -97,7 +97,7 @@ export default function ContactPage() {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary text-gray-900 bg-white" // Ajout de text-gray-900 et bg-white
                   />
                 </div>
 
