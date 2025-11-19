@@ -8,7 +8,7 @@ interface SermonsPageProps {
 
 export default async function SermonsPage({ searchParams }: SermonsPageProps) {
   const search = typeof searchParams.search === 'string' ? searchParams.search : '';
-  const videos = await getChannelVideos(50); // Récupérer plus de vidéos pour la recherche
+  const videos = await getChannelVideos(18); // Récupérer plus de vidéos pour la recherche
 
   // Filtrer les vidéos basé sur la recherche
   const filteredVideos = search

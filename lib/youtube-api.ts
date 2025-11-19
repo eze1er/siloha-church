@@ -161,15 +161,15 @@ export async function searchVideosPaginated(
   prevPageToken?: string;
   totalResults?: number;
 }> {
-  if (!YOUTUBE_API_KEY) {
-    console.warn("YouTube API key not configured");
+  if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) {
+    console.warn("YouTube API key or channel ID not configured");
     return { videos: [] };
   }
 
-  const cacheKey = `youtube:search:${query}:${maxResults}:${pageToken || 'first'}`;
+  const cacheKey = `youtube:search:${YOUTUBE_CHANNEL_ID}:${query}:${maxResults}:${pageToken || 'first'}`;
 
   try {
-    // 🔥 CACHE pour la recherche (15 minutes)
+    // Cache pour la recherche (15 minutes)
     const cached = SimpleCache.get<{
       videos: YouTubeVideo[];
       nextPageToken?: string;
@@ -182,7 +182,7 @@ export async function searchVideosPaginated(
       return cached;
     }
 
-    console.log("🔍 Recherche paginée depuis YouTube API:", query);
+    console.log("🔍 Recherche dans la chaîne:", query);
 
     const params: any = {
       key: YOUTUBE_API_KEY,
@@ -190,7 +190,9 @@ export async function searchVideosPaginated(
       q: query,
       maxResults: maxResults,
       type: 'video',
-      order: 'relevance'
+      // 🔥 CHANGEMENT CRITIQUE : Trier par date (plus récent en premier)
+      order: 'date',
+      channelId: YOUTUBE_CHANNEL_ID
     };
 
     if (pageToken) {
@@ -206,7 +208,7 @@ export async function searchVideosPaginated(
       totalResults: data.pageInfo?.totalResults
     };
 
-    console.log(`✅ ${result.videos.length} résultats de recherche trouvés`);
+    console.log(`✅ ${result.videos.length} résultats de recherche trouvés dans la chaîne`);
 
     // Cache plus court pour les recherches (15 minutes)
     SimpleCache.set(cacheKey, result, 900);
@@ -254,23 +256,38 @@ export async function getChannelDetails() {
 
 // Recherche de vidéos
 export async function searchVideos(query: string, maxResults: number = 12) {
-  if (!YOUTUBE_API_KEY) {
-    console.warn("YouTube API key not configured");
+  if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) {
+    console.warn("YouTube API key or channel ID not configured");
     return [];
   }
 
+  const cacheKey = `youtube:search:${YOUTUBE_CHANNEL_ID}:${query}:${maxResults}`;
+
   try {
+    const cached = SimpleCache.get<YouTubeVideo[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const { data } = await axios.get(`${BASE_URL}/search`, {
       params: {
         key: YOUTUBE_API_KEY,
         part: 'snippet',
         q: query,
         maxResults: maxResults,
-        type: 'video'
+        type: 'video',
+        // 🔥 TRI PAR DATE
+        order: 'date',
+        channelId: YOUTUBE_CHANNEL_ID
       }
     });
 
-    return data.items || [];
+    const videos = data.items || [];
+    
+    // Cache de 15 minutes pour les recherches
+    SimpleCache.set(cacheKey, videos, 900);
+    
+    return videos;
   } catch (error) {
     console.error("Error searching videos:", error);
     return [];
