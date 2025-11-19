@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getVideoDetails, getChannelVideos } from '@/lib/youtube-api';
+import { getChannelVideos } from '@/lib/youtube-api';
 import VideoPlayer from '@/components/youtube/VideoPlayer';
 import VideoList from '@/components/youtube/VideoList';
 import { decodeHtmlEntitiesServer } from '@/lib/utils';
@@ -10,39 +10,37 @@ interface SermonPageProps {
   };
 }
 
-export default async function SermonPage({ params }: SermonPageProps) {
-  // Récupérer les données de la vidéo
-  const video = await getVideoDetails(params.id);
-  const relatedVideos = await getChannelVideos(6);
+export const revalidate = 86400;
+export default async function SermonDetailPage({ params }: SermonPageProps) {
+  console.log('🎯 Page détail chargée pour ID:', params.id);
+  
+  // Récupérer toutes les vidéos pour trouver celle qui correspond
+  const allVideos = await getChannelVideos(50);
+  const video = allVideos.find(v => v.id.videoId === params.id);
+  const relatedVideos = allVideos.filter(v => v.id.videoId !== params.id).slice(0, 6);
 
   // Vérifier si la vidéo existe
   if (!video) {
-    console.log('❌ Vidéo non trouvée pour ID:', params.id);
+    console.log('❌ Vidéo non trouvée:', params.id);
     notFound();
   }
 
-  // Vérifier la structure des données
-  console.log('📹 Données vidéo reçues:', video);
-
-  const { snippet, statistics } = video;
-  
-  if (!snippet) {
-    console.log('❌ Données snippet manquantes');
-    notFound();
-  }
-
-  // Décoder le titre et la description
+  const { snippet } = video;
   const decodedTitle = decodeHtmlEntitiesServer(snippet.title);
   const decodedDescription = decodeHtmlEntitiesServer(snippet.description || '');
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Détail du Sermon</h1>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Vidéo principale */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <VideoPlayer videoId={params.id} />
+              <VideoPlayer videoId={params.id} title={decodedTitle} />
               
               <div className="p-6">
                 <h1 className="text-2xl font-bold text-gray-900 mb-4">
@@ -61,13 +59,6 @@ export default async function SermonPage({ params }: SermonPageProps) {
                       })}
                     </p>
                   </div>
-                  
-                  {statistics && (
-                    <div className="text-right text-sm text-gray-600">
-                      <p>{parseInt(statistics.viewCount || '0').toLocaleString()} vues</p>
-                      <p>{parseInt(statistics.likeCount || '0').toLocaleString()} likes</p>
-                    </div>
-                  )}
                 </div>
                 
                 <div className="border-t border-gray-200 pt-4">
@@ -86,7 +77,7 @@ export default async function SermonPage({ params }: SermonPageProps) {
               <h2 className="text-xl font-bold text-gray-900 mb-4">
                 Autres sermons
               </h2>
-              <VideoList videos={relatedVideos.filter(v => v.id.videoId !== params.id)} />
+              <VideoList videos={relatedVideos} />
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import { comparePassword, hashPassword } from '@/lib/auth-utils';
 
-const authOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -24,7 +24,7 @@ const authOptions = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
-      async authorize(credentials) {  // ← CORRECTION : Supprimer "=>"
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -63,7 +63,7 @@ const authOptions = {
             email: token.email,
             password: await hashPassword(Math.random().toString(36) + Date.now().toString()),
             role: 'member',
-            emailVerified: true,
+            emailVerified: new Date(),
           });
         }
         
@@ -92,7 +92,7 @@ const authOptions = {
               email: user.email,
               password: await hashPassword(Math.random().toString(36) + Date.now().toString()),
               role: 'member',
-              emailVerified: true,
+              emailVerified: new Date(),
             });
           }
           return true;
@@ -106,11 +106,10 @@ const authOptions = {
   },
   pages: {
     signIn: '/login',
-    signUp: '/register',
     error: '/auth/error',
   },
   session: {
-    strategy: 'jwt' as const,
+    strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   debug: process.env.NODE_ENV === 'development',

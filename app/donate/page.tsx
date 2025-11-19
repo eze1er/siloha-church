@@ -93,18 +93,18 @@ export default function DonatePage() {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="card bg-primary text-white">
+            <div className="card bg-primary text-primary-600">
               <h3 className="text-xl font-semibold mb-4">
                 Votre don fait la différence
               </h3>
-              <ul className="space-y-3 text-primary-100">
+              <ul className="space-y-3 text-primary-600">
                 <li className="flex items-start">
                   <span className="mr-2">•</span>
-                  <span>Soutien aux programmes jeunesse</span>
+                  <span>Soutien aux programmes</span>
                 </li>
                 <li className="flex items-start">
                   <span className="mr-2">•</span>
-                  <span>Aide aux familles dans le besoin</span>
+                  <span>Aide aux familles et personnes dans le besoin</span>
                 </li>
                 <li className="flex items-start">
                   <span className="mr-2">•</span>
@@ -123,18 +123,18 @@ export default function DonatePage() {
               </h3>
               <div className="space-y-2 text-sm text-gray-600">
                 <p>
-                  <strong>Virement bancaire:</strong>
+                  <strong>Virement interact:</strong>
                   <br />
-                  IBAN: information a venir
+                  email: e-w-tv@bell.net
                 </p>
                 <p>
                   <strong>Chèque:</strong>
-                  <br />À l'ordre de "Eglise Siloe/Siloha Church"
+                  <br />À l'ordre de "Eglise Siloe/ Siloha Church"
                 </p>
                 <p>
                   <strong>Espèces:</strong>
                   <br />
-                  Lors des cultes
+                  Lors des differents cultes
                 </p>
               </div>
             </div>
